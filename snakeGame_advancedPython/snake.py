@@ -221,7 +221,7 @@ class MAIN:
         screen.blit(score_surface, score_rect)
         screen.blit(apple, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
-        #33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+        
     def draw_Maxscore(self):
         score_text = self.max_eaten
         score_surface = game_font.render(('Max Score: '+str(score_text)), True, (56, 74, 12))
