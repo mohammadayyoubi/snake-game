@@ -129,12 +129,14 @@ class BLOCK:
         
         
 class MAIN:
+
     def __init__(self):
+        self.myfile = file = open("maxScore.txt", "r+")
         self.snake = SNAKE()
         self.fruit = FRUIT()
         self.blocks = BLOCK()
         self.apples_eaten = 0  # Counter for apples eaten
-        self.max_eaten = 0
+        self.max_eaten = int (self.myfile.read())
 
     def update(self):
         self.snake.move_snake()
@@ -154,6 +156,7 @@ class MAIN:
             
         self.snake.draw_snake()
         self.draw_score()
+        self.draw_Maxscore()
         
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -187,6 +190,8 @@ class MAIN:
         self.blocks = BLOCK()  # Reset blocks
         if self.apples_eaten>self.max_eaten:
             self.max_eaten=self.apples_eaten
+            with open("maxScore.txt", 'w') as file:  # Open in write mode to clear and update
+                file.write(str(self.max_eaten))
         self.apples_eaten = 0  # Reset apple counter
 	
     def draw_grass(self):
@@ -208,6 +213,20 @@ class MAIN:
         score_surface = game_font.render(str(score_text), True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 60)
         score_y = int(cell_size * cell_number - 40)
+        score_rect = score_surface.get_rect(center=(score_x, score_y))
+        apple_rect = apple.get_rect(midright=(score_rect.left, score_rect.centery))
+        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6, apple_rect.height)
+
+        pygame.draw.rect(screen, (167, 209, 61), bg_rect)
+        screen.blit(score_surface, score_rect)
+        screen.blit(apple, apple_rect)
+        pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
+        #33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+    def draw_Maxscore(self):
+        score_text = self.max_eaten
+        score_surface = game_font.render(('Max Score: '+str(score_text)), True, (56, 74, 12))
+        score_x = int(cell_size * cell_number - 400)
+        score_y = int(cell_size * cell_number - 750)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = apple.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6, apple_rect.height)
